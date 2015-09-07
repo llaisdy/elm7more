@@ -1,0 +1,16 @@
+{
+    "version": "1.0.0",
+    "summary": "Material Design Lite for Elm",
+    "repository": "https://github.com/pdamoc/elm-mdl.git",
+    "license": "BSD3",
+    "source-directories": [
+        "src", "examples"
+    ],
+    "exposed-modules": [
+        "Mdl"
+    ],
+    "dependencies": {
+        "elm-lang/core": "2.0.0 <= v < 3.0.0",
+    },
+    "elm-version": "0.15.0 <= v < 0.16.0"
+}

@@ -37,12 +37,19 @@ bottom = 550
 secsPerFrame = 1.0 / 50.0  
 delta = inSeconds <~ fps 50
 
+range low high sig =
+  let 
+    gen = Random.int low high 
+    firstSeed = Random.initialSeed 42
+    newInt i (old, seed) = Random.generate gen seed
+  in 
+    Signal.map fst <| Signal.foldp newInt (0, firstSeed) sig
+
 input : Signal Input
 input = sampleOn delta (Input <~ Keyboard.space
                                ~ Mouse.x
                                ~ delta
-                               ~ constant 0)  -- ADDED BY IVAN
---                               ~ Random.range 0 4 (every secsPerFrame))  -- ORIGINAL
+                               ~ range 0 4 (every secsPerFrame))
 
 
 main = Signal.map display gameState
