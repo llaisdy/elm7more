@@ -41,7 +41,7 @@ input : Signal Input
 input = sampleOn delta (Input <~ Keyboard.space
                                ~ Mouse.x
                                ~ delta
-                               ~ constant 3)  -- ADDED BY IVAN
+                               ~ constant 0)  -- ADDED BY IVAN
 --                               ~ Random.range 0 4 (every secsPerFrame))  -- ORIGINAL
 
 

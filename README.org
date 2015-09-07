@@ -1,2 +1,119 @@
-# elm7more
-Code for the Elm chapter in "Seven More Languages in Seven Weeks"
+* Code for the Elm chapter in "Seven More Languages in Seven Weeks"
+
+** Overview
+
+I thought the Elm chapter in "Seven More Languages in Seven Weeks" was very good.  However, the Elm language has changed significantly since the chapter was published, so very few of the code examples worked as printed.
+
+This repo contains all code examples from the chapter, updated for Elm 0.15 --- and tested to be working.  There is one workaround for a feature in the game from day 3 (see below for details).
+
+The src/ directory contains updated version of code in the book's source tarball.  The other two scripts contain examples from day 2 from the book which were not included in the tarball.
+
+The original code is available from the book's web page:
+
+    https://pragprog.com/book/7lang/seven-more-languages-in-seven-weeks
+
+I have read some of the other chapters in the book and I think they are as good as the Elm chapter.  Each chapter gives a good flavour of the language it covers (the book covers Lua, Factor, Elm, Elixir, Julia, miniKanren, and Idris).
+
+** Day 1
+
+The first day is all in the Elm REPL.  There are two differences to note:
+
+*** (p. 91) Error messages slightly different
+
+Error messages have changed slightly.  The book suggests that the REPL used to show "Expected" and "Actual" types, as in:
+
+#+BEGIN_SRC 
+
+> 4 + "4"
+[1 of 1] Compiling Repl
+...
+
+    Expected Type: number
+      Actual Type: String
+
+#+END_SRC 
+
+Error messages do report the type mismatch:
+
+#+BEGIN_SRC 
+
+> 4 + "4"
+## ERRORS in repl-temp-000.elm #################################################
+
+-- TYPE MISMATCH --------------------------------------------- repl-temp-000.elm
+
+The right argument of (+) is causing a type mismatch.
+
+3|   4 + "4"
+         ^^^
+As I infer the type of values flowing through your program, I see a conflict
+between these two types:
+
+    number
+
+    String
+
+#+END_SRC 
+
+However, (in my experience so far) the order of the reported types is not always Expected, Actual.  Sometimes it is Actual, Expected.  
+
+*** (p. 93) data -> type
+
+The data keyword for declaring a new type is now type, as in:
+
+#+BEGIN_SRC 
+type Color = Black | White
+#+END_SRC 
+
+** Day 2
+
+As well as day2.elm and p106.echo.elm, all the scripts in src/ are for day2, apart from languageHeads.elm.
+
+I have added necessary imports and made some lexical changes (e.g., lift is now Signal.map).  I have also added some type annotations.  Two other changes for day 2 code:
+
+- count (p. 103) no longer exists.  Thanks to a member on the elm-discuss mailing list, day2.elm uses a foldp for this.
+
+- The echo example uses a Mailbox for message passing.
+
+** Day 3
+
+I have updated languageHeads.elm for Elm 0.15.  I have also corrected errors in the code: for example, the Head type was declared without an img field.  
+
+As well as languageHeads.elm, the book's source tarball has game.elm, skeleton.elm, gameTwo.elm, and inputModel.elm.  
+
+There was one aspect of the game I haven't been able to get working so I have included a work-around.  
+
+The issue is with generating a random number and feeding it to a Signal.
+
+languageHeads is a game with heads bouncing across the screen.  When the player's point go over thresholds a new random head is added.  The random integer is carried around in an Input data type:
+
+#+BEGIN_SRC 
+
+type alias Input = { space:Bool, x:Int, delta:Time, rand:Int }
+
+input : Signal Input
+input = sampleOn delta (Input <~ Keyboard.space
+                               ~ Mouse.x
+                               ~ delta
+                               ~ Random.range 0 4 (every secsPerFrame))
+
+#+END_SRC 
+
+It looks like that last line should generate a Signal Int, but range is no longer part of Random, and I haven't been able to get this working any other way.  I started thinking it might be better to keep a random number generator in a new Heads data type, something like:
+
+#+BEGIN_SRC
+type alias Heads = { heads: List Heads, rng: ???, seed: Int }
+#+END_SRC 
+
+For now I have changed the above to the following, effectively always choosing the same head:
+
+#+BEGIN_SRC 
+
+input : Signal Input
+input = sampleOn delta (Input <~ Keyboard.space
+                               ~ Mouse.x
+                               ~ delta
+                               ~ constant 3)
+
+#+END_SRC 
+
