@@ -1,8 +1,8 @@
 {
     "version": "1.0.0",
-    "summary": "Material Design Lite for Elm",
-    "repository": "https://github.com/pdamoc/elm-mdl.git",
-    "license": "BSD3",
+    "summary": "Code for the Elm chapter in 'Seven More Languages in Seven Weeks'",
+    "repository": "https://github.com/llaisdy/elm7more.git",
+    "license": "ISC",
     "source-directories": [
         "src", "examples"
     ],
