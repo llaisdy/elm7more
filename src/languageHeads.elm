@@ -64,7 +64,7 @@ stepGame input game =
     
 stepGamePlay {space, x, delta, rand} ({state, heads, player} as game) =
   { game | state <-  stepGameOver x heads
-         , heads <- stepHeads heads delta x player.score rand
+         , heads <- stepHeads heads delta player.score rand
          , player <- stepPlayer player x heads }
 
 stepGameOver x heads = 
@@ -76,8 +76,10 @@ allHeadsSafe x heads =
 headSafe x head =
     head.y < bottom || abs (head.x - x) < 50
 
--- TODO: Explain why x is here but unused.
-stepHeads heads delta x score rand =
+-- Book (p. 117) has
+-- stepHeads heads delta x score rand = ...
+-- but the extra argument 'x' is not used
+stepHeads heads delta score rand =
   spawnHead score heads rand 
   |> bounceHeads
   |> removeComplete
