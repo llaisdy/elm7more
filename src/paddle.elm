@@ -1,3 +1,4 @@
+-- Day 2, Drawing Shapes, page 108
 import Color
 import Graphics.Collage exposing (collage, filled, rect, moveX, moveY)
 import Mouse
@@ -13,4 +14,3 @@ display (w, h) x  = collage w h
        [ drawPaddle w h x ]
 
 main = Signal.map2 display Window.dimensions Mouse.x
-
