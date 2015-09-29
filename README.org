@@ -67,6 +67,43 @@ The data keyword for declaring a new type is now type, as in:
 type Color = Black | White
 #+END_SRC 
 
+*** (p. 93) case is whitespace sensitive
+
+When entering the case pattern matching example into a REPL, please be aware that each pattern must be prefixed by whitespace. The text provides this example:
+
+#+BEGIN_SRC
+> color = case piece of \
+|   CP White _ -> White \
+|   CP Black _ -> Black
+#+END_SRC
+
+Otherwise, there will be a parse error indicating,
+
+#+BEGIN_SRC
+I ran into something unexpected when parsing your code!
+
+I am looking for one of the following things:
+
+    end of input
+    whitespace
+#+END_SRC
+
+*** (p. 95) map, filter, and foldl must be qualified with List module.
+
+The REPL requires the `map` and `filter` functions to be qualified. These functions are used in several examples starting on page 95. The first example under the *Working with Functions* section should read:
+
+#+BEGIN_SRC
+> List.map anonymousInc [1, 2, 3]
+#+END_SRC
+
+*** (p. 99) Example DOES work in REPL
+
+The text says that this example would not work in the REPL, but it does now.
+
+#+BEGIN_SRC
+xDist {x} = abs x
+#+END_SRC
+
 ** Day 2
 
 As well as day2.elm and p106.echo.elm, all the scripts in src/ are for day2, apart from languageHeads.elm.

@@ -76,6 +76,7 @@ allHeadsSafe x heads =
 headSafe x head =
     head.y < bottom || abs (head.x - x) < 50
 
+-- TODO: Explain why x is here but unused.
 stepHeads heads delta x score rand =
   spawnHead score heads rand 
   |> bounceHeads
